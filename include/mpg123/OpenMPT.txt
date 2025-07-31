@@ -1,0 +1,11 @@
+libmpg123 library version 1.33.1 (2025-07-27).
+The following changes have been made:
+ *  `ports/generic/config.h` has been added for build system independent builds.
+ *  `src/compat/compat.c` has been modified to silence MSVC static analyzer
+    warnings.
+ *  `src/compat/compat.c` and `src/compat/compat.h` have been modified to
+    exclude unneeded functionality.
+ *  Modifications are marked by `// OpenMPT` or `/* OpenMPT */`.
+ *  Obviously, unnecessary folders and files have been removed.
+ *  For building, premake is used to generate Visual Studio project files.
+    See ../build/premake/ for details.
