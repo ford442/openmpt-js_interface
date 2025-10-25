@@ -170,9 +170,13 @@
  * @{
  */
 
+int32_t openmpt_module_get_current_note_data(openmpt_module* mod, uint32_t* data_buffer, int32_t max_notes);
+
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+LIBOPENMPT_API int32_t openmpt_module_get_current_note_data( openmpt_module * mod, uint32_t * data_buffer, int32_t max_notes );
 
 /*! \brief Get the libopenmpt version number
  *
