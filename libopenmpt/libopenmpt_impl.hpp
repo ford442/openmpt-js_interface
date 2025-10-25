@@ -100,7 +100,7 @@ public:
 		unfiltered,
 		auto_filter,
 	};
-
+	int32_t get_current_note_data(uint32_t* data_buffer, int32_t max_notes); // Add this declaration
 protected:
 	struct subsong_data {
 		double duration;
