@@ -945,3 +945,6 @@
 /test/test.saved.xm
 /unarchiver/*.d
 /unarchiver/*.o
+
+emsdk
+node_modules
