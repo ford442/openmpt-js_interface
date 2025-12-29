@@ -141,7 +141,7 @@ LDFLAGS  += -DNDEBUG=1 \
 -sWASM=0 -sFORCE_FILESYSTEM=1 -sALLOW_MEMORY_GROWTH=0 -sINITIAL_HEAP=512mb \
 -rtlib=compiler-rt -sENVIRONMENT=web -sASYNCIFY=0 -sMALLOC='emmalloc' \
 --output_eol linux --use-preload-plugins --closure 0 --closureFriendly -sSTRICT_JS=0 -sASSERTIONS=0
-
+CXXFLAGS += -DMPT_ENABLE_SAVECREATE_XM -DMPT_ENABLE_SAVING
 
 else ifeq ($(EMSCRIPTEN_TARGET),1it1-new)
 LINK_SIMD_FLAGS = -msse -msse2 -msse3 -mssse3 -msse4 -msse4.1 -msse4.2 -mavx -msimd128 -openmp-simd
@@ -194,7 +194,7 @@ endif
 CXXFLAGS += -s DISABLE_EXCEPTION_CATCHING=0
 CFLAGS   += -s DISABLE_EXCEPTION_CATCHING=0 -fno-strict-aliasing
 LDFLAGS  += -s DISABLE_EXCEPTION_CATCHING=0 -s ERROR_ON_UNDEFINED_SYMBOLS=1 -s ERROR_ON_MISSING_LIBRARIES=1 -s EXPORT_NAME="'libopenmpt'"
-SO_LDFLAGS += -sEXPORTED_FUNCTIONS="['_malloc','_free']" -sEXPORTED_RUNTIME_METHODS="['HEAPU8','HEAPF32']" \
+SO_LDFLAGS += -sEXPORTED_FUNCTIONS="['_openmpt_module_get_current_note_data','_malloc','_free']" -sEXPORTED_RUNTIME_METHODS="['HEAPU8','HEAPF32']" \
 
 
 NO_NO_UNDEFINED_LINKER_FLAG=1

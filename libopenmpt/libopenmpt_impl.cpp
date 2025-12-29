@@ -258,6 +258,46 @@ std::string get_string( const std::string & key ) {
 
 } // namespace version
 
+int32_t module_impl::get_current_note_data(uint32_t* data_buffer, int32_t max_notes) {
+    if (!m_sndFile) {
+        return 0; // No module loaded
+    }
+
+    int32_t notes_written = 0;
+    const int32_t num_channels = m_sndFile->GetNumChannels();
+
+    for (int32_t chn = 0; chn < num_channels && notes_written < max_notes; ++chn) {
+        const ModChannel& channel = m_sndFile->m_PlayState.Chn[chn];
+
+        // Check if the channel is active and producing sound
+        // NOTE: This condition might need refinement based on exact needs.
+        //       'nPeriod' > 0 often indicates a note is playing.
+        //       'nRealVolume' > 0 indicates it has volume.
+        //       Check ModChannel definition for available fields.
+        if (channel.nPeriod > 0 && channel.nRealVolume > 0 && !channel.dwFlags[CHN_MUTE]) {
+
+            // Ensure we don't overflow the provided buffer
+            if (notes_written < max_notes) {
+                uint32_t note_key = channel.nNote; // Base note key (usually C-0 = 1, etc. or MIDI note)
+                                                   // Might need adjustment if it's not directly MIDI note number.
+                                                   // Check NOTE_MIN, NOTE_MAX definitions.
+
+                uint32_t volume = channel.nRealVolume; // Current volume (needs scaling understanding)
+                                                       // Assuming it's roughly 0-256 or 0-64 depending on format.
+                                                       // Let's assume it roughly fits in a uint for now.
+
+                data_buffer[notes_written * 3 + 0] = static_cast<uint32_t>(chn);
+                data_buffer[notes_written * 3 + 1] = static_cast<uint32_t>(note_key);
+                data_buffer[notes_written * 3 + 2] = static_cast<uint32_t>(volume);
+                notes_written++;
+            } else {
+                break; // Buffer full
+            }
+        }
+    }
+    return notes_written;
+}
+
 log_interface::log_interface() {
 	return;
 }

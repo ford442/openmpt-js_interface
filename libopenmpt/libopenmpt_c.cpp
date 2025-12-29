@@ -36,6 +36,26 @@
 
 namespace openmpt {
 
+int32_t openmpt_module_get_current_note_data( openmpt_module * mod, uint32_t * data_buffer, int32_t max_notes ) {
+    try {
+        openmpt::module_impl * module = reinterpret_cast<openmpt::module_impl*>( mod );
+        if ( !module ) {
+            return 0;
+        }
+        if ( !data_buffer ) {
+            return 0; // Need a valid buffer
+        }
+        if ( max_notes <= 0 ) {
+            return 0; // Buffer must have some size
+        }
+        // Call the C++ implementation
+        return module->get_current_note_data( data_buffer, max_notes );
+    } catch ( ... ) {
+        // Error handling (optional, could return -1 or similar)
+        return 0;
+    }
+}
+
 static const char * strdup( const char * src ) {
 	char * dst = (char*)std::calloc( std::strlen( src ) + 1, sizeof( char ) );
 	if ( !dst ) {
